@@ -102,6 +102,53 @@ let whiteColorPieces = [kingWhite, queenWhite, rookWhite, rookWhite2, bishopWhit
 let blackColorPieces = [kingBlack, queenBlack, rookBlack, rookBlack2, bishopBlack, bishopBlack2, knightBlack, knightBlack2, pawnBlack, pawnBlack2, pawnBlack3, pawnBlack4, pawnBlack5, pawnBlack6, pawnBlack7, pawnBlack8]
 let chessPieces = [whiteColorPieces, blackColorPieces]
 
+let literals = ["   ", "  a ", "  b ", "  c ", "  d  ", " e ", " f ", " g ", " h ", "   "]
+
 // Making chess board
 
+let blackSquare = " \u{2b1b} "
+let whiteSquare = " \u{2b1c} "
+var topRow = [String]()
+var allChessBoard = [Array<Any>]()
+var temp = [String]()
+for k in 0...10 {
+    temp.removeAll()
+    for m in 0...9 {
+        if k == 0 {
+            topRow.append(literals[m])
+        }
+        
+        if m == 0 && (0..<9).contains(k) || m == 9 && (0..<9).contains(k) {
+            temp.append(String(" \(k) "))
+        }
+        
+        
+        if (1..<9).contains(k) && (1..<9).contains(m) {
+            if k % 2 != m % 2 {
+                //print("w k = \(k), m = \(m)")
+                temp.append(whiteSquare)
+            } else {
+                //print("k = \(k), m = \(m)")
+                temp.append(blackSquare)
+            }
+        }
+        
+        
+        //print(temp)
+    }
+    
+    if k == 0 || k == 10 {
+        //print(temp, k)
+        allChessBoard.append(topRow)
+        
+    } else if (0..<9).contains(k) {
+        
+        allChessBoard.append(temp)
+    }
+}
 
+//print(allChessBoard)
+
+for i in allChessBoard.reversed() {
+    print(i)
+}
