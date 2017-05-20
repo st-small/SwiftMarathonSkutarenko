@@ -74,10 +74,10 @@ print("\n*********************")
 print("***** Checkmate *****")
 print("*********************\n")
 
-var kingBlack = Piece.King(title: "King", color: .Black, positionColumn: "d", positionRow: 8, image: .KingBlack)
-var rookWhite = Piece.Rook(title: "Rook", color: .White, positionColumn: "h", positionRow: 8, image: .RookWhite)
-var rookWhite2 = Piece.Rook(title: "Rook", color: .White, positionColumn: "g", positionRow: 7, image: .RookWhite)
-var chessPieces = [kingBlack, rookWhite, rookWhite2]
+var kingBlackT = Piece.King(title: "King", color: .Black, positionColumn: "d", positionRow: 8, image: .KingBlack)
+var rookWhiteT = Piece.Rook(title: "Rook", color: .White, positionColumn: "h", positionRow: 8, image: .RookWhite)
+var rookWhite2T = Piece.Rook(title: "Rook", color: .White, positionColumn: "g", positionRow: 7, image: .RookWhite)
+chessPieces = [kingBlackT, rookWhiteT, rookWhite2T]
 
 print(literals)
 for i in 1...8 {
@@ -88,17 +88,17 @@ for i in 1...8 {
         for chessPiece in chessPieces {
             switch chessPiece {
             case .King (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == i:
-                changePiece(pieceImg: piece.image.rawValue)
+                changePiece(text: "King", pieceImg: piece.image.rawValue)
             case .Queen (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == i:
-                changePiece(pieceImg: piece.image.rawValue)
+                changePiece(text: "Queen", pieceImg: piece.image.rawValue)
             case .Rook (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == i:
-                changePiece(pieceImg: piece.image.rawValue)
+                changePiece(text: "Rook", pieceImg: piece.image.rawValue)
             case .Bishop (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == i:
-                changePiece(pieceImg: piece.image.rawValue)
+                changePiece(text: "Bishop", pieceImg: piece.image.rawValue)
             case .Knight (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == i:
-                changePiece(pieceImg: piece.image.rawValue)
+                changePiece(text: "Knight", pieceImg: piece.image.rawValue)
             case .Pawn (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == i:
-                changePiece(pieceImg: piece.image.rawValue)
+                changePiece(text: "Pawn", pieceImg: piece.image.rawValue)
             default: break
             }
         }
@@ -192,7 +192,7 @@ func printAllPiecesOnStart(array: [Piece]) {
 
 }
 
-func printChessArray(Piece : [Piece]) {
+func printChessArrayInTextMode(Piece : [Piece]) {
     for chess in Piece {
         switch chess {
         case .King (let t, let c, let col, let row, _) : print("\(t) - \(c) - \(col):\(row)")
@@ -205,6 +205,69 @@ func printChessArray(Piece : [Piece]) {
     }
 }
 
-printChessArray(Piece: chessPieces)
+func printChessArrayInGraphicMode(array : [Piece]) {
+    let literalsDict = [1: "a",2: "b",3: "c",4: "d",5: "e",6: "f",7: "g",8: "h"]
+    let literalsStr = "  A B C D E F G H "
+    let blackSquare = "\u{2b1b}"
+    let whiteSquare = "\u{2b1c}"
+    var str = ""
+    print(literalsStr)
+    for i in 1...8 {
+        let m = 9 - i
+        str = "\(m) "
+        for j in 1...8 {
+            str += (i + j) % 2 == 0 ? whiteSquare : blackSquare
+            
+            for chessPiece in array {
+                switch chessPiece {
+                case .King (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == m:
+                    str = changePiece(text: str, pieceImg: piece.image.rawValue)
+                case .Queen (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == m:
+                    str = changePiece(text: str, pieceImg: piece.image.rawValue)
+                case .Rook (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == m:
+                    str = changePiece(text: str, pieceImg: piece.image.rawValue)
+                case .Bishop (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == m:
+                    str = changePiece(text: str, pieceImg: piece.image.rawValue)
+                case .Knight (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == m:
+                    str = changePiece(text: str, pieceImg: piece.image.rawValue)
+                case .Pawn (let piece) where piece.positionColumn == literalsDict[j] && piece.positionRow == m:
+                    str = changePiece(text: str, pieceImg: piece.image.rawValue)
+                default: break
+                }
+            }
+        }
+        str += " \(9 - i)"
+        print(str)
+    }
+    print(literalsStr)
+    
+}
+
+printChessArrayInTextMode(Piece: chessPieces)
 
 printAllPiecesOnStart(array: chessPieces)
+
+// Moving pieces
+
+func movePiece(piece: Piece, moveToColumn: String, moveToRow: Int, inArray: [Piece]) {
+    for (i, piece) in inArray.enumerated() {
+        switch piece {
+        case .Pawn: print(i, piece)
+        default: break
+        }
+    }
+
+    if literalsDict.values.contains(moveToColumn) && moveToRow <= literalsDict.count {
+        switch piece {
+        case .King (var piece) : piece.positionColumn = moveToColumn; piece.positionRow = moveToRow
+        case .Pawn (var piece) : piece.positionColumn = moveToColumn; piece.positionRow = moveToRow; print("New position of piece \(piece.title) is \(piece.positionColumn):\(piece.positionRow)")
+        default: break
+        }
+    }
+
+}
+
+print("***********")
+movePiece(piece: pawnWhite, moveToColumn: "a", moveToRow: 3, inArray: chessPieces)
+
+printChessArrayInGraphicMode(array: chessPieces)
