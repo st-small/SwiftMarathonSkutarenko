@@ -96,6 +96,19 @@ stClass1.age
 addOneYear(student: stClass1)
 stClass1.age
 
+var arrayStructs = [stStruct1]
+arrayStructs[0]
+arrayStructs[0].age = 50
+arrayStructs[0]
+stStruct1
+
+var arrayClasses = [stClass1]
+arrayClasses[0]
+arrayClasses[0].age = 50
+arrayClasses[0]
+stClass1
+
+
 
 
 
