@@ -142,8 +142,17 @@ func printHuman(human: Human) {
     print("Human with name \(human.name) & lastName \(human.lastName) has \(age) years old. The height is \(height) meters & weight is \(weight) kgs")
 }
 
+func printHumansCount() {
+    switch Human.totalHumans {
+    case 1: print("There are 1 human in stack")
+    default: print("There are \(Human.totalHumans) humans in stack")
+    }
+}
+
 let man1 = Human(name: "1", lastName: "Coys", age: 25, height: 1.67, weight: 87.5)
 printHuman(human: man1)
+printHumansCount()
 
 let man2 = Human(name: "dfjshfskjhfkjhdfkjdsfjhkds", lastName: "ds", age: 123445, height: 3546, weight: 14)
 printHuman(human: man2)
+printHumansCount()
