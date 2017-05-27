@@ -74,9 +74,44 @@ print("\(file3.fileSize) mb")
 file3.fileSize = 1200
 print("\(file3.fileSize) mb")
 
+enum OceanColor: Int {
+    
+    static let count = 6
+    static let startColor = OceanColor.Sky1
+    static let endColor = OceanColor.Sky1
+    
+    case Sky1 = 0x264890
+    case Sky2 = 0x3884CF
+    case Ocean1 = 0xFD4CB
+    case Ocean2 = 0x67D29E
+    case Beach1 = 0xB7C0A5
+    case Beach2 = 0xDFD2C1
+    
+    static func hexToRgb(hex: Int) -> (r:CGFloat, g:CGFloat, b:CGFloat) {
+        return (r:CGFloat((hex >> 16) & 0xFF) / 255, g:CGFloat((hex >> 08) & 0xFF) / 255, b:CGFloat(hex & 0xFF) / 255)
+    }
+    
+    static func UIColor(hex: Int) -> UIColor {
+        let rgb = OceanColor.hexToRgb(hex: hex)
+        print(rgb)
+        return UIColor(red:rgb.r, green:rgb.g, blue:rgb.b, alpha:1.0)
+    }
+}
 
+//class Human {
+//    var name : String
+//    var lastName : String
+//    var age : Int
+//    var height : Double
+//    var weight : Double
+//}
 
+let rgb = OceanColor.hexToRgb(hex: 100)
+let color = UIColor(red: rgb.r, green: rgb.g, blue: rgb.b, alpha: 1.0)
 
+var label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+label.backgroundColor = color
 
+print(label)
 
 
