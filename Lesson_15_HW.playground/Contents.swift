@@ -91,27 +91,59 @@ enum OceanColor: Int {
         return (r:CGFloat((hex >> 16) & 0xFF) / 255, g:CGFloat((hex >> 08) & 0xFF) / 255, b:CGFloat(hex & 0xFF) / 255)
     }
     
-    static func UIColor(hex: Int) -> UIColor {
+    static func Color(hex: Int) -> UIColor {
         let rgb = OceanColor.hexToRgb(hex: hex)
-        print(rgb)
         return UIColor(red:rgb.r, green:rgb.g, blue:rgb.b, alpha:1.0)
     }
 }
 
-//class Human {
-//    var name : String
-//    var lastName : String
-//    var age : Int
-//    var height : Double
-//    var weight : Double
-//}
+class Human {
+    
+    static var totalHumans = 0
+    
+    static let minNameLength = 2
+    static let maxNameLength = 15
+    
+    static let minAge = 0
+    static let maxAge = 100
+    
+    static let minHeight = 0.5
+    static let minWeight = 3.0
+    
+    var name : String
+    var lastName : String
+    var age : Int?
+    var height : Double?
+    var weight : Double?
+    
+    init(name: String, lastName: String, age: Int, height: Double, weight: Double) {
+        self.name = (name.characters.count > Human.minNameLength && name.characters.count < Human.maxNameLength) ? name : "No Name"
 
-let rgb = OceanColor.hexToRgb(hex: 100)
-let color = UIColor(red: rgb.r, green: rgb.g, blue: rgb.b, alpha: 1.0)
+        self.lastName = (lastName.characters.count > Human.minNameLength && lastName.characters.count < Human.maxNameLength) ? lastName : "No Last Name"
+        
+        self.age = (age > Human.minAge && age < Human.maxAge) ? age : nil
+        
+        self.height = height > Human.minHeight ? height : nil
+        
+        self.weight = weight > Human.minWeight ? weight : nil
+        
+        Human.totalHumans += 1
+    }
+}
 
-var label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-label.backgroundColor = color
+func printHuman(human: Human) {
+    var age = 0
+    let height = human.height ?? 0
+    let weight = human.weight ?? 0
+    if human.age != nil {
+        age = human.age!
+    }
+    
+    print("Human with name \(human.name) & lastName \(human.lastName) has \(age) years old. The height is \(height) meters & weight is \(weight) kgs")
+}
 
-print(label)
+let man1 = Human(name: "1", lastName: "Coys", age: 25, height: 1.67, weight: 87.5)
+printHuman(human: man1)
 
-
+let man2 = Human(name: "dfjshfskjhfkjhdfkjdsfjhkds", lastName: "ds", age: 123445, height: 3546, weight: 14)
+printHuman(human: man2)
