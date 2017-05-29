@@ -46,8 +46,56 @@ square["d", 7]
 square["r", 8]
 
 
+enum BlockImg: String {
+    case empty = "⬜"
+    case cross = "❌"
+    case circle = "⭕"
+}
 
+class Block {
+    var x: Int
+    var y: Int
+    var img = "⬜"
+    
+    init(x: Int, y:Int) {
+        self.x = x
+        self.y = y
+    }
+}
 
+class TicTacToe {
+    var arr = [Block]()
+    
+    init() {
+        for i in 0...2 {
+            for j in 0...2 {
+                arr.append(Block(x: i, y: j))
+            }
+        }
+    }
+    
+    func printField() {
+        var str = ""
+        for i in 0...4 {
+            for j in 0...4 {
+                switch (j, i) {
+                case (j, i) where i == 0 || i == 4 || j == 0 || j == 4:
+                    str.append("⬛")
+                default:
+                    str.append(arr[i+j].img)
+                }
+            }
+            print(str)
+            str = ""
+        }
+    }
+    
+    subscript
+}
+
+var TTT = TicTacToe()
+TTT.arr
+TTT.printField()
 
 
 
