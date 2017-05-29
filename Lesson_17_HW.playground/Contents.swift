@@ -55,7 +55,7 @@ enum BlockImg: String {
 class Block {
     var x: Int
     var y: Int
-    var img = "⬜"
+    var img = BlockImg.empty
     
     init(x: Int, y:Int) {
         self.x = x
@@ -69,7 +69,7 @@ class TicTacToe {
     init() {
         for i in 0...2 {
             for j in 0...2 {
-                arr.append(Block(x: i, y: j))
+                arr.append(Block(x: j, y: i))
             }
         }
     }
@@ -78,11 +78,17 @@ class TicTacToe {
         var str = ""
         for i in 0...4 {
             for j in 0...4 {
-                switch (j, i) {
-                case (j, i) where i == 0 || i == 4 || j == 0 || j == 4:
+                switch (i, j) {
+                case (i, j) where i == 0 || i == 4 || j == 0 || j == 4:
                     str.append("⬛")
                 default:
-                    str.append(arr[i+j].img)
+                    if i == 1 {
+                        str.append(arr[(i + j) - 2].img.rawValue)
+                    } else if i == 2 {
+                        str.append(arr[i + j].img.rawValue)
+                    } else if i == 3 {
+                        str.append(arr[(i + j) + 2].img.rawValue)
+                    }
                 }
             }
             print(str)
@@ -90,14 +96,130 @@ class TicTacToe {
         }
     }
     
-    subscript
+    func findUpperOrLower(x: Int, y: Int) -> String {
+        for block in arr {
+            if block.x == x && block.y == y {
+                return block.img.rawValue
+            }
+        }
+        
+        return BlockImg.empty.rawValue
+    }
+    
+    func newGame() {
+        for block in arr {
+            block.img = BlockImg.empty
+        }
+        
+        self.printField()
+    }
+    
+    subscript(x: Int, y: Int) -> String {
+        get {
+            for block in arr {
+                if block.x == x && block.y == y {
+                    return "The Block (\(block.x), \(block.y)) has \(block.img.rawValue) value"
+                }
+            }
+            
+            return "??"
+        }
+        
+        set {
+            if (0...3).contains(x) && (0...3).contains(y) {
+                for block in arr {
+                    if block.x == x && block.y == y {
+                        if block.img == BlockImg.empty {
+                            block.img = BlockImg(rawValue: newValue)!
+                        } else {
+                            print("\nYou can't set this block. It's value is not empty! It has \(block.img)\n")
+                        }
+                    }
+                }
+                
+                print("The Block (\(x), \(y)) has \(newValue) value\n*****************************")
+                
+            } else {
+                print("\nWrong value! The x or y position is out of range!\n")
+            }
+            
+            self.printField()
+            
+            switch newValue {
+                // "\"
+            case _ where self.findUpperOrLower(x: x + 1, y: y + 1) == newValue && self.findUpperOrLower(x: x - 1, y: y - 1) == newValue :
+                print("\(newValue) wins!")
+            case _ where self.findUpperOrLower(x: x + 1, y: y + 1) == newValue && self.findUpperOrLower(x: x + 2, y: y + 2) == newValue :
+                print("\(newValue) wins!")
+            case _ where self.findUpperOrLower(x: x - 1, y: y - 1) == newValue && self.findUpperOrLower(x: x - 2, y: y - 2) == newValue :
+                print("\(newValue) wins!")
+                
+                // "/"
+            case _ where self.findUpperOrLower(x: x - 1, y: y + 1) == newValue && self.findUpperOrLower(x: x - 2, y: y + 2) == newValue :
+                print("\(newValue) wins!")
+            case _ where self.findUpperOrLower(x: x + 1, y: y + 1) == newValue && self.findUpperOrLower(x: x - 1, y: y - 1) == newValue :
+                print("\(newValue) wins!")
+            case _ where self.findUpperOrLower(x: x - 1, y: y - 1) == newValue && self.findUpperOrLower(x: x - 2, y: y - 2) == newValue :
+                print("\(newValue) wins!")
+                
+                // "_"
+            case _ where self.findUpperOrLower(x: x + 1, y: y) == newValue && self.findUpperOrLower(x: x + 2, y: y) == newValue :
+                print("\(newValue) wins!")
+            case _ where self.findUpperOrLower(x: x - 1, y: y) == newValue && self.findUpperOrLower(x: x + 1, y: y) == newValue :
+                print("\(newValue) wins!")
+            case _ where self.findUpperOrLower(x: x - 1, y: y) == newValue && self.findUpperOrLower(x: x - 2, y: y) == newValue :
+                print("\(newValue) wins!")
+                
+            // "|"
+            case _ where self.findUpperOrLower(x: x, y: y + 1) == newValue && self.findUpperOrLower(x: x, y: y + 2) == newValue :
+                print("\(newValue) wins!")
+            case _ where self.findUpperOrLower(x: x, y: y - 1) == newValue && self.findUpperOrLower(x: x, y: y + 1) == newValue :
+                print("\(newValue) wins!")
+            case _ where self.findUpperOrLower(x: x, y: y - 1) == newValue && self.findUpperOrLower(x: x, y: y - 2) == newValue :
+                print("\(newValue) wins!")
+                
+            default: break
+            }
+            
+        }
+        
+    }
 }
 
 var TTT = TicTacToe()
-TTT.arr
-TTT.printField()
+//TTT.arr
+//
+//TTT[1,1] = BlockImg.circle.rawValue
+//
+//TTT[1,1] = BlockImg.cross.rawValue
+//
+//TTT[5,5] = BlockImg.cross.rawValue
+//
+//TTT[2,2] = BlockImg.circle.rawValue
+//TTT[0,0] = BlockImg.circle.rawValue
+//
+//TTT.newGame()
+//TTT[0,2] = BlockImg.circle.rawValue
+//TTT[1,1] = BlockImg.circle.rawValue
+//TTT[2,0] = BlockImg.circle.rawValue
+//
+//TTT.newGame()
+//TTT[0,0] = BlockImg.cross.rawValue
+//TTT[1,0] = BlockImg.cross.rawValue
+//TTT[2,0] = BlockImg.cross.rawValue
+//
+//TTT.newGame()
+//TTT[0,0] = BlockImg.cross.rawValue
+//TTT[0,1] = BlockImg.cross.rawValue
+//TTT[0,2] = BlockImg.cross.rawValue
 
-
+TTT.newGame()
+TTT[1,0] = BlockImg.cross.rawValue
+TTT[1,1] = BlockImg.circle.rawValue
+TTT[2,0] = BlockImg.cross.rawValue
+TTT[0,0] = BlockImg.circle.rawValue
+TTT[2,2] = BlockImg.cross.rawValue
+TTT[2,1] = BlockImg.cross.rawValue
 
 
 
