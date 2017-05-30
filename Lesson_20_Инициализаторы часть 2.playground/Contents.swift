@@ -47,6 +47,12 @@ class Student : Human {
         test()
     }
     
+    override convenience init(weight: Int, age: Int) {
+        self.init(firstName: "")
+        self.weight = weight
+        self.age = age
+    }
+    
     convenience init(firstName: String) {
         //test()
         self.init(firstName: firstName, lastName: "")
@@ -59,21 +65,41 @@ class Doctor : Student {
     
     var fieldOfStudy : String = ""
     
-//    init(fielsOfStudy: String) {
-//        self.fieldOfStudy = fieldOfStudy
-//        super.init(firstName: "Doctor", lastName: "House")
+    init(fieldOfStudy: String) {
+        self.fieldOfStudy = fieldOfStudy
+        super.init(firstName: "Doctor", lastName: "House")
+    }
+    
+//    override init(weight: Int, age: Int) {
+//        self.fieldOfStudy = ""
+//        super.init(weight: weight, age: age)
 //    }
     
-    convenience init(fieldOfStudy: String) {
-        self.init(firstName: "Doctor", lastName: "House")
-        self.fieldOfStudy = fieldOfStudy
+    override init(firstName: String, lastName: String) {
+        self.fieldOfStudy = "Health"
+        super.init(firstName: firstName, lastName: lastName)
+    }
+    
+//    convenience init(fieldOfStudy: String) {
+//        self.init(firstName: "Doctor", lastName: "House")
+//        self.fieldOfStudy = fieldOfStudy
+//    }
+    
+    convenience init(firstName: String) {
+        self.init(fieldOfStudy: "Math")
+        self.age = 35
+        self.firstName = firstName
     }
 }
 
+let s1 = Student()
+
 let d1 = Doctor(firstName: "aaa")
 print(d1.firstName)
+d1.age
 
-let d2 = Doctor(
+let d2 = Doctor()
+d2.age
 
 
 
