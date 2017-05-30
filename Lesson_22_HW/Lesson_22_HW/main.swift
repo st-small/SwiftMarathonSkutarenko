@@ -30,17 +30,95 @@ class Human {
     }
 }
 
-class Father: Family {
-    
-}
-
-class Mother: Family {
-    
-}
-
 class Family {
-    var father = Father
+    var father : Father
+    var mother : Mother
+    var child : [Child]
     
+    init(father: Father, mother: Mother, child: Child...) {
+        self.father = father
+        self.mother = mother
+        self.child = child
+    }
+    
+    func printFamily() {
+        let familyArray : [Human] = [father, mother] + child
+        print("Family:")
+        
+        for i in familyArray {
+            print("\(i.className) - \(i.name)")
+        }
+    }
+}
+
+class Father: Human {
+    weak var family : Family!
+    
+    lazy var printFamily: () -> () = {
+        [unowned self] in
+        self.family.printFamily()
+    }
+    
+    lazy var printWife: () -> () = {
+        [unowned self] in
+        print("\(self.className) wife is \(self.family.mother.name)")
+    }
+    
+    lazy var printChilds: () -> () = {
+        [unowned self] in
+        print("\nThere are my kids:\n")
+        for kid in self.family.child {
+            print("\(kid.className) his name \(kid.name)")
+        }
+    }
+}
+
+class Mother: Human {
+    weak var family : Family!
+    
+}
+
+class Child: Human {
+    weak var family : Family!
+    
+    lazy var heyBro: () -> () = {
+        [unowned self] in
+        print("Hey bro! I love you, \(self.family.child.last!.name)!")
+    }
+    
+    lazy var giveCandy: () -> () = {
+        [unowned self] in
+        print("Hey mam! Give me a candy, mom \(self.family.mother.name)!")
+    }
+    
+    lazy var buyAToy: () -> () = {
+        [unowned self] in
+        print("Hey dad! Buy me a toy please, dad \(self.family.father.name)!")
+    }
+}
+
+if 5 > 2 {
+    let father = Father(className: "Father", name: "A")
+    let mother = Mother(className: "Mother", name: "B")
+    let child1 = Child(className: "Child", name: "C1")
+    let child2 = Child(className: "Child", name: "C2")
+    let child3 = Child(className: "Child", name: "C3")
+    var f = Family(father: father, mother: mother, child: child1, child2, child3)
+    f.printFamily()
+    
+    father.family = f
+    mother.family = f
+    child1.family = f
+    child2.family = f
+    child3.family = f
+    
+    child2.heyBro()
+    child1.giveCandy()
+    child3.buyAToy()
+    
+    father.printWife()
+    father.printFamily()
+    father.printChilds()
 }
 
 
