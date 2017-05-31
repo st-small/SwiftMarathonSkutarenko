@@ -30,7 +30,7 @@ class Human {
     var cousinBrother: Man?
     var cousinSister: Woman?
     
-    var pet: [Pet]?
+    var pet = [Pet]()
     
     init(name: String) {
         self.name = name
@@ -64,10 +64,59 @@ class Woman: Human {
 }
 
 class Pet {
-    static var petNames = ["Doggy", "Kitty", "Monkey", "Parrot", "Dori"]
     var nickname: String
+    init(nickname: String) {
+        self.nickname = nickname
+    }
+    
+    func sound() {
+        
+    }
+}
+
+class Dog: Pet {
     init() {
-        nickname = Pet.petNames[Int(arc4random_uniform(5))]
+        super.init(nickname: "Doggy")
+    }
+    
+    override func sound() {
+        print("Bow-wow!")
+    }
+}
+
+class Cat: Pet {
+    init() {
+        super.init(nickname: "Kitty")
+    }
+    override func sound() {
+        print("Meow!")
+    }
+}
+
+class Monkey: Pet {
+    init() {
+        super.init(nickname: "Monkey")
+    }
+    override func sound() {
+        print("Scream!")
+    }
+}
+
+class Parrot: Pet {
+    init() {
+        super.init(nickname: "Parrot")
+    }
+    override func sound() {
+        print("Squawk!")
+    }
+}
+
+class Fish: Pet {
+    init() {
+        super.init(nickname: "Dori")
+    }
+    override func sound() {
+        print("-- silent... --")
     }
 }
 
@@ -189,19 +238,76 @@ for i in family {
 
 print("\nThere are \(mans) mans & \(womans) womans in the family")
 
+func returnRandomPet() -> Pet? {
+    let random = Int(arc4random_uniform(5))
+    switch random {
+    case 0: return Dog()
+    case 1: return Cat()
+    case 2: return Fish()
+    case 3: return Parrot()
+    case 4: return Monkey()
+    default: break
+    }
+    return nil
+}
+
 for (i, value) in humans.enumerated() {
     if i % 2 == 0 {
-        value.pet?.append(Pet())
-        value.pet?.append(Pet())
+        value.pet.append(returnRandomPet()!)
+        value.pet.append(returnRandomPet()!)
     } else if i % 3 == 0 {
-        value.pet?.append(Pet())
-        value.pet?.append(Pet())
-        value.pet?.append(Pet())
+        value.pet.append(returnRandomPet()!)
+        value.pet.append(returnRandomPet()!)
+        value.pet.append(returnRandomPet()!)
     }
 }
 
+var animals = [Pet]()
+
 for value in humans {
-    print(<#T##items: Any...##Any#>)
+    if !value.pet.isEmpty {
+        switch value.pet.count {
+        case let x where x == 2:
+            print("\(value.name) has there are pets: \(value.pet[0].nickname), \(value.pet[1].nickname)")
+            animals.append(value.pet[0])
+            animals.append(value.pet[1])
+        case let x where x == 3:
+            print("\(value.name) has there are pets: \(value.pet[0].nickname), \(value.pet[1].nickname), \(value.pet[2].nickname)")
+            animals.append(value.pet[0])
+            animals.append(value.pet[1])
+            animals.append(value.pet[2])
+        default: break
+        }
+    }
 }
+
+print("\n*******************************")
+
+var dogs = 0
+var cats = 0
+var parrots = 0
+var fishes = 0
+var monkeys = 0
+
+for i in animals {
+    switch i.nickname {
+    case let name where name == "Doggy": print(name); i.sound(); dogs += 1
+    case let name where name == "Kitty": print(name); i.sound(); cats += 1
+    case let name where name == "Parrot": print(name); i.sound(); parrots += 1
+    case let name where name == "Dori": print(name); i.sound(); fishes += 1
+    case let name where name == "Monkey": print(name); i.sound(); monkeys += 1
+    default: break
+    }
+}
+
+print("\nThere are animals in our family:\nDogs are \(dogs)\nCats are \(cats)\nParrots are \(parrots)\nFishes \(fishes)\nMonkeys \(monkeys)")
+
+
+
+
+
+
+
+
 
 
