@@ -107,7 +107,7 @@ var board = 0
 for column in 0...7 {
     for row in 0...7 {
         if (column + row) % 2 == 0 {
-            let temp: Int = 1 << (column * 8 + row)
+            let temp = 1 << (column * 8 + row)
             board |= temp
         }
     }
@@ -120,10 +120,10 @@ func showColor(_ board: Int, _ coordinate: (String, Int)) -> String {
     let column = columnDict[coordinate.0]!
     let row = coordinate.1
     var color = ""
-    if board & (1 << (column * 8 + row)) != 0 {
-        color = "Black"
-    } else {
+    if board & (1 << (column * 8 + row-1)) != 0 {
         color = "White"
+    } else {
+        color = "Black"
     }
     return "The square with coordinates (\(coordinate.0)-\(coordinate.1)) has \(color) color"
 }
@@ -136,5 +136,13 @@ print(showColor(board, ("a",5)))
 print(showColor(board, ("a",6)))
 print(showColor(board, ("a",7)))
 print(showColor(board, ("a",8)))
+print(showColor(board, ("b",1)))
+print(showColor(board, ("b",2)))
+print(showColor(board, ("b",3)))
+print(showColor(board, ("b",4)))
+print(showColor(board, ("b",5)))
+print(showColor(board, ("b",6)))
+print(showColor(board, ("b",7)))
+print(showColor(board, ("b",8)))
 print(showColor(board, ("d",4)))
 
