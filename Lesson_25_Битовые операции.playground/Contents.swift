@@ -105,16 +105,68 @@ b = 0
 
 //**************************
 
-var a: UInt8 = 0b00110011
-var b: UInt8 = 0b11100001
+var a: UInt8 = 0b00110011 // 51
+var b: UInt8 = 0b11100001 // 225
+var c = 0
 
+a.binary()
+b.binary()
+(a | b).binary() // 243
+
+a.binary()
+b.binary()
+(a & b).binary() // 33
+
+a.binary()
+b.binary()
+(a ^ b).binary() // 210
+
+a.binary()
+(~a).binary()
+
+// проверка установки бита, если рузальтат == b, то оба, если результат, просто > 0, то какой-то из них, ХЗ какой
+b = 0b00010001
+a.binary()
+b.binary()
+(a & b).binary()
+
+// установка нужного бита в любом случае (если нет его, то установить; если установлен, то положение не изменится)
+b = 0b00000100
 a.binary()
 b.binary()
 (a | b).binary()
 
+// установка нужного бита в инверсии (если нет его, то установить; если установлен, то убрать)
 a.binary()
 b.binary()
-(a & b).binary()
+(a ^ b).binary()
+
+// как сбросить бит числа
+b = 0b00010000
+a.binary()
+(~b).binary()
+(a & ~b).binary()
+
+enum CheckList: UInt8 {
+    case Bread      = 0b000000001
+    case Chicken    = 0b000000010
+    case Apples     = 0b000000100
+    case Pears      = 0b000001000
+}
+
+let checkList: UInt8 = 0b00001001
+
+let bread = checkList & CheckList.Bread.rawValue
+bread.binary()
+
+let chicken = checkList & CheckList.Chicken.rawValue
+chicken.binary()
+
+let pears = checkList & CheckList.Pears.rawValue
+pears.binary()
+
+
+
 
 
 
