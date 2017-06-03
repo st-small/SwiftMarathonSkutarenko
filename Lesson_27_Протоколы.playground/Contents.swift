@@ -7,6 +7,10 @@ protocol EntryName {
 
 class Student : EntryName {
     
+    var label: String {
+        return fullName
+    }
+    
     var firstName: String
     var lastName: String
     
