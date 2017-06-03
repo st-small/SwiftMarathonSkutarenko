@@ -64,7 +64,11 @@ var array: [EntryName] =
 //    }
 //}
 
-
+func printFarm(array: [EntryName]) {
+    
+    
+    
+}
 
 
 
