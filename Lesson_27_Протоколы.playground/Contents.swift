@@ -1,15 +1,16 @@
 import UIKit
 
-protocol EntryName {
+protocol EntryName : Priority {
     var label: String { get }
     
 }
 
-class Student : EntryName {
+protocol Priority {
+    var order: Int { get }
     
-    var label: String {
-        return fullName
-    }
+}
+
+class Student : EntryName {
     
     var firstName: String
     var lastName: String
@@ -22,6 +23,12 @@ class Student : EntryName {
         self.firstName = firstName
         self.lastName = lastName
     }
+    
+    var label: String {
+        return fullName
+    }
+    
+    let order = 1
 }
 
 class Animal {
@@ -30,10 +37,22 @@ class Animal {
 
 class Cow : Animal, EntryName {
     var name: String?
+    
+    var label: String {
+        return name ?? "a cow"
+    }
+    
+    let order = 2
 }
 
 struct Grass : EntryName {
     var type: String
+    
+    var label: String {
+        return "Grass: " + type
+    }
+    
+    let order = 3
 }
 
 let student1 = Student(firstName: "Bob", lastName: "Shmob")
@@ -68,13 +87,26 @@ var array: [EntryName] =
 //    }
 //}
 
-func printFarm(array: [EntryName]) {
+func printFarm(_ array: [EntryName]) {
     
+    var array = array
+    array.sort(by: {a, b in
+        
+        if a.order == b.order {
+            return a.label.lowercased() < b.label.lowercased()
+        } else {
+            return a.order < b.order
+        }
+    })
     
+    for value in array {
+        
+        print(value.label)
+    }
     
 }
 
-
+printFarm(array)
 
 
 
