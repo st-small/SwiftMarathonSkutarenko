@@ -428,5 +428,37 @@ var list = [1, 2, 3, 4, 98, 1, 4, 123, 11, 82]
 
 // ЭЛЕМЕНТАРНЫЕ СТРУКТУРЫ ДАННЫХ **********************************
 
+// LIFO - last in first out
+
+// push
+// pop
+// isEmpty
+// size
+// top
+
+struct Stack <T> {
+    
+    var container = [T]()
+    
+    var isEmpty: Bool {
+        return container.isEmpty
+    }
+    
+    mutating func push(element: T) {
+        container.append(element)
+    }
+    
+    mutating func pop() -> T? {
+        if !isEmpty {
+            return container.removeLast()
+        }
+    }
+}
+
+
+
+
+
+
 
 
