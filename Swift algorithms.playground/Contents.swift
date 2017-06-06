@@ -341,51 +341,92 @@ var list = [1, 2, 3, 4, 98, 1, 4, 123, 11, 82]
 
 // quickSort(list)
 
-list = [9, 6, 7, 3, 42, 2, 78, 4, 5, 67, 98, 1]
+//list = [9, 6, 7, 3, 42, 2, 78, 4, 5, 67, 98, 1]
+//
+//func quickSort <T: Comparable> (_ list: [T]) -> [T] {
+//    
+//    if list.count > 1 {
+//        var less:[T] = []
+//        var equal:[T] = []
+//        var greater:[T] = []
+//        
+//        let pivot = list[1]
+//        
+//        for elem in list {
+//            if elem < pivot {
+//                less.append(elem)
+//            } else if elem == pivot {
+//                equal.append(elem)
+//            } else {
+//                greater.append(elem)
+//            }
+//        }
+//        return quickSort(less) + equal + quickSort(greater)
+//    } else {
+//        return list
+//    }
+//}
+//
+//quickSort(list)
+//
+//list = [9, 6, 7, 3, 42, 2, 78, 4, 5, 67, 98, 1]
+//
+//func quickSort2 <T: Comparable> (_ list: [T]) -> [T] {
+//    
+//    if list.count == 0 {
+//        return []
+//    }
+//    
+//    let pivot = list[0]
+//    let sublist = list.count > 1 ? list[1..<list.count] : []
+//    let smaller = sublist.filter{$0 <= pivot}
+//    let greater = sublist.filter{$0 > pivot}
+//    
+//    var temp = quickSort2(smaller) + [pivot]
+//    temp += quickSort2(greater)
+//    
+//    return temp
+//}
+//
+//quickSort2(list)
+//
+//
+//func quickSort3 <T: Comparable> (_ list: inout [T], _ start: Int, _ end: Int) {
+//    
+//    if end - start < 2 {
+//        return
+//    }
+//    
+//    let pivot = list[start + (end - start) / 2]
+//    var low = start
+//    var high = end - 1
+//    
+//    while (low <= high) {
+//        if list[low] < pivot {
+//            low += 1
+//            continue
+//        }
+//        
+//        if list[high] > pivot {
+//            high -= 1
+//            continue
+//        }
+//        
+//        let temp = list[low]
+//        list[low] = list[high]
+//        list[high] = temp
+//        
+//        low += 1
+//        high -= 1
+//    }
+//    
+//    quickSort3(&list, start, high + 1)
+//    quickSort3(&list, high + 1, end)
+//}
+//
+//quickSort3(&list, 0, list.count)
 
-func quickSort <T: Comparable> (_ list: [T]) -> [T] {
-    
-    if list.count > 1 {
-        var less:[T] = []
-        var equal:[T] = []
-        var greater:[T] = []
-        
-        let pivot = list[1]
-        
-        for elem in list {
-            if elem < pivot {
-                less.append(elem)
-            } else if elem == pivot {
-                equal.append(elem)
-            } else {
-                greater.append(elem)
-            }
-        }
-        return quickSort(less) + equal + quickSort(greater)
-    } else {
-        return list
-    }
-}
-
-quickSort(list)
-
-func quickSort2 <T: Comparable> (_ list: [T]) -> [T] {
-    
-    if list.count == 0 {
-        return []
-    }
-    
-    let pivot = list[0]
-    let sublist = list.count > 1 ? list[1..<list.count] : []
-    let smaller = sublist.filter{$0 <= pivot}
-    let greater = sublist.filter{$0 > pivot}
-    
-    return quickSort2(smaller) + pivot + quickSort2(greater)
-}
-
-quickSort2(list)
-
-
+// ЭЛЕМЕНТАРНЫЕ СТРУКТУРЫ ДАННЫХ **********************************
 
 
 
