@@ -436,24 +436,277 @@ var list = [1, 2, 3, 4, 98, 1, 4, 123, 11, 82]
 // size
 // top
 
-struct Stack <T> {
+//struct Stack <T> {
+//    
+//    var container = [T]()
+//    
+//    var isEmpty: Bool {
+//        return container.isEmpty
+//    }
+//    
+//    var top: T? {
+//        return container.last
+//    }
+//    
+//    var size: Int {
+//        return container.count
+//    }
+//    
+//    mutating func push(_ element: T) {
+//        container.append(element)
+//    }
+//    
+//    mutating func pop() -> T? {
+//        if !isEmpty {
+//            return container.removeLast()
+//        }
+//        
+//        return nil
+//    }
+//}
+//
+//var stack = Stack<String>()
+//stack.isEmpty
+//stack.pop()
+//
+//stack.push("a")
+//stack.push("b")
+//stack.push("c")
+//
+//stack.size
+//stack.pop()
+//stack.top
+
+// FIFO - first in first out
+
+// enqueue
+// dequeue
+// isEmpty
+// size
+// head
+// tail
+
+//struct Queue <T> {
+//    
+//    var container = [T]()
+//    
+//    var isEmpty: Bool {
+//        return container.isEmpty
+//    }
+//    
+//    var size: Int {
+//        return container.count
+//    }
+//    
+//    var head: T? {
+//        return container.first
+//    }
+//    
+//    var tail: T? {
+//        return container.last
+//    }
+//    
+//    mutating func enqueue(_ element: T) {
+//        container.append(element)
+//    }
+//    
+//    mutating func dequeue() -> T? {
+//        if !isEmpty {
+//            return container.remove(at: 0)
+//        }
+//        
+//        return nil
+//    }
+//}
+//
+//var queue = Queue<String>()
+//queue.isEmpty
+//queue.enqueue("abc")
+//queue.enqueue("def")
+//queue.enqueue("ghi")
+//
+//queue.head
+//queue.tail
+//
+//queue.size
+//
+//queue.dequeue()
+//queue.dequeue()
+//queue.dequeue()
+//
+//queue.dequeue()
+
+//MARK: - Deque
+
+// addFirst
+// addLast
+// removeFirst
+// removeLast
+// head
+// tail
+// isEmpty
+// size
+
+//struct Deque <T> {
+//    
+//    var container = [T]()
+//    
+//    var isEmpty: Bool {
+//        return container.isEmpty
+//    }
+//    
+//    var size: Int {
+//        return container.count
+//    }
+//    
+//    var head: T? {
+//        return container.first
+//    }
+//    
+//    var tail: T? {
+//        return container.last
+//    }
+//    
+//    mutating func addFirst(_ element: T) {
+//        container.insert(element, at: 0)
+//    }
+//    
+//    mutating func addLast(_ element: T) {
+//        container.append(element)
+//    }
+//    
+//    mutating func removeFirst() -> T? {
+//        if !isEmpty {
+//            return container.remove(at: 0)
+//        }
+//        
+//        return nil
+//    }
+//    
+//    mutating func removeLast() -> T? {
+//        if !isEmpty {
+//            return container.removeLast()
+//        }
+//        
+//        return nil
+//    }
+//}
+
+// [1, 2, 3]
+// [_, _, _, _]
+
+// [1, 2, 3]
+// [_, _, _, _, _, _]
+
+//MARK: СВЯЗАННЫЙ СПИСОК
+
+// # => # => nil
+// # <==> #
+
+class Node <T: Equatable> {
     
-    var container = [T]()
+    var item: T
+    var next: Node<T>?
     
-    var isEmpty: Bool {
-        return container.isEmpty
+    init(element: T) {
+        item = element
     }
     
-    mutating func push(element: T) {
-        container.append(element)
-    }
-    
-    mutating func pop() -> T? {
-        if !isEmpty {
-            return container.removeLast()
+    func add(newItem: T) {
+        if let nextNode = next {
+            nextNode.add(newItem: newItem)
+        } else {
+            next = Node<T>(element: newItem)
         }
     }
 }
+
+class LinkedList <T: Equatable> {
+    
+    var head: Node<T>?
+    
+    func add(item: T) {
+        if head != nil {
+            head!.add(newItem: item)
+        } else {
+            head = Node(element: item)
+        }
+    }
+    
+    func remove(item: T) {
+        if head != nil {
+            if head!.item == item {
+                head = head!.next
+            } else {
+                var current = head
+                var prev = head
+                
+                while current!.next != nil && current!.item != item {
+                    prev = current
+                    current = current!.next
+                }
+                
+                if let deleted = current {
+                    if deleted.item == item {
+                        if let nexter = deleted.next {
+                            prev?.next = nexter
+                            deleted.next = nil
+                        } else {
+                            prev?.next = nil
+                        }
+                    }
+                }
+             }
+        }
+    }
+    
+    var size: Int {
+        var current = head
+        var counter = 0
+        while current != nil {
+            current = current?.next
+            counter += 1
+        }
+        
+        return counter
+    }
+}
+
+extension LinkedList {
+    
+    func print() -> String {
+        var str = ""
+        var current = head
+        while current != nil {
+            str += "\(current!.item) => "
+            current = current?.next
+        }
+        
+        return str
+    }
+}
+
+var linkedList = LinkedList<String>()
+
+linkedList.add(item: "abc")
+linkedList.add(item: "def")
+linkedList.add(item: "ghi")
+linkedList.add(item: "jkl")
+
+print(linkedList.print())
+print(linkedList.size)
+
+linkedList.remove(item: "def")
+linkedList.remove(item: "abc")
+linkedList.remove(item: "fdf")
+linkedList.remove(item: "jkl")
+linkedList.remove(item: "ghi")
+
+print(linkedList.print())
+print(linkedList.size)
+
+
+
 
 
 
